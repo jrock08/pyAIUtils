@@ -227,6 +227,21 @@ def test_resize_image_like():
     sess.close()
     tf.reset_default_graph()
 
+def test_all_image_crops():
+    image_shape = (1,50,50,3)
+    crop_shape = (1,12,12,3)
+
+    g = tf.Graph()
+    with g.as_default():
+        x = tf.placeholder(tf.float32, image_shape)
+        crops = images.all_image_crops(x, crop_shape)
+
+        assert(crops.get_shape().as_list()[1] == 12)
+        assert(crops.get_shape().as_list()[2] == 12)
+        assert(crops.get_shape().as_list()[3] == 3)
+
+        #print crops.get_sahpe().as_list()[0]
+
 
 def test_placeholder_management():
     sess = tf.InteractiveSession()
